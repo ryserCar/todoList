@@ -1,7 +1,5 @@
 package com.app.todolist;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "tasks")
@@ -19,6 +20,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Task Description required")
     private String description;
     private boolean completed;
     private String last_update;
@@ -63,7 +65,8 @@ public class Task {
     @PreUpdate
     @PrePersist
     public void preUpdate() {
-        last_update = LocalDateTime.now().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        last_update = LocalDateTime.now().format(formatter);
     }
 
     public boolean isCompleted() {

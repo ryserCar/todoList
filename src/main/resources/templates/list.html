@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="static/style.css" th:href="@{/style.css}"/>
+    <title>To do List</title>
+</head>
+<body>
+
+<form method="post" th:action="@{/todo/add}" th:object="${newTask}">
+    <div class="input-group">
+        <input th:field="*{description}" type="text" class="form-control col-md-5" placeholder="Enter new task">
+        <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Add</button>
+        </span>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-4 hidden-sm-up"></div>
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-table" aria-hidden="true"></i> TODO List
+            </div>
+            <div class="card-block table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <td scope="col">#</td>
+                        <td scope="col">Task</td>
+                        <td scope="col">Last Update</td>
+                        <td scope="col">Completed</td>
+                        <td scope="col">Actions</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-th-each="task:${taskList}">
+                        <th class="align-middle" scope="row" data-th-text="${taskStat.index}+1"></th>
+                        <td class="align-middle strike" th:if="${task.isCompleted()}"
+                            data-th-text="${task.getDescription()}"></td>
+                        <td class="align-middle" th:if="${!task.isCompleted()}"
+                            data-th-text="${task.getDescription()}"></td>
+                        <td class="align-middle" data-th-text="${task.getLast_update()}"></td>
+                        <td class="align-middle" data-th-text="${task.isCompleted()}"></td>
+                        <td class="align-middle">
+                            <div class="btn-group">
+                                <form method="post" th:action="@{/todo/update/{id}(id=${task.getId()})}">
+                                    <button title="Complete" th:if="${!task.isCompleted()}" type="submit"
+                                            class="btn btn-success"><i
+                                            class="fas fa-check"></i>
+                                    </button>
+                                    <button title="Uncompleted" th:if="${task.isCompleted()}" type="submit"
+                                            class="btn btn-warning"><i
+                                            class="far fa-minus-square"></i>
+                                    </button>
+                                </form>
+                                &nbsp;
+                                <form method="post" th:action="@{/todo/delete/{id}(id=${task.getId()})}">
+                                    <button title="Delete" type="submit" class="btn btn-danger"><i
+                                            class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

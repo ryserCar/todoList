@@ -27,7 +27,13 @@ public class TaskService {
         taskRepository.save(taskToSave);
     }
 
-    public void update(Task task) {
+    public void update(Long id) {
+        Task task = taskRepository.findById(id).get();
+        if(task.isCompleted()){
+            task.setCompleted(false);
+        }else {
+            task.setCompleted(true);
+        }
         taskRepository.save(task);
     }
 
