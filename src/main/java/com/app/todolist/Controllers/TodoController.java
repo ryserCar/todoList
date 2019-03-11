@@ -1,15 +1,15 @@
-package com.app.todolist;
+package com.app.todolist.Controllers;
 
+import com.app.todolist.Domain.Task;
+import com.app.todolist.Services.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,16 +27,16 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model) {
+    public String list(Model model, Authentication authentication) {
         model.addAttribute("newTask", new Task());
-        model.addAttribute("taskList", taskService.getAllUserTasks());
+        model.addAttribute("taskList", taskService.getAllUserTasks(authentication.getName()));
         return "list";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@Valid Task task, BindingResult result) {
+    public String add(@Valid Task task, BindingResult result, Authentication authentication) {
         if (!result.hasErrors()) {
-            taskService.add(task);
+            taskService.add(task, authentication.getName());
         }
         return "redirect:/todo/list";
     }

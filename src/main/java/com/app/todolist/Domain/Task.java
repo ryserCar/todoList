@@ -1,4 +1,4 @@
-package com.app.todolist;
+package com.app.todolist.Domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,18 +23,15 @@ public class Task {
     private String description;
     private boolean completed;
     private String last_update;
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "user_id")
-    private User user;*/
+    private String user_name;
 
     public Task() {
     }
 
-    public Task(String description, boolean completed) {
+    public Task(String description, boolean completed, String user_name) {
         this.description = description;
         this.completed = completed;
+        this.user_name = user_name;
     }
 
     public long getId() {
@@ -75,5 +71,13 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }

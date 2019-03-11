@@ -6,21 +6,26 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="all"
-          href="static/style.css" th:href="@{/style.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/style.css}"/>
     <title>To do List</title>
 </head>
 <body>
+<div class="form-inline col-md-12">
+    <form method="post" th:action="@{/todo/add}" th:object="${newTask}">
 
-<form method="post" th:action="@{/todo/add}" th:object="${newTask}">
-    <div class="input-group">
-        <input th:field="*{description}" type="text" class="form-control col-md-5" placeholder="Enter new task">
+        <input th:field="*{description}" type="text" class="form-control" style="width: 500px"
+               placeholder="Enter new task">
         <span class="input-group-btn">
+                &nbsp;
         <button class="btn btn-primary" type="submit">Add</button>
         </span>
-    </div>
-</form>
 
+    </form>
+    <form method="post" th:action="@{/logout}">
+        &nbsp;
+        <button class="btn btn-warning">Logout</button>
+    </form>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-4 hidden-sm-up"></div>
